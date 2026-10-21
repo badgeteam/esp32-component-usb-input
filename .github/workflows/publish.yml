@@ -1,0 +1,30 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    name: Upload to the component registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check the tag against the manifest
+        run: |
+          manifest=$(sed -n 's/^version: *"\(.*\)"/\1/p' idf_component.yml)
+          tag=${GITHUB_REF_NAME#v}
+          if [ "$manifest" != "$tag" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match version $manifest in idf_component.yml"
+            exit 1
+          fi
+          echo "Publishing $manifest"
+
+      - name: Upload
+        uses: espressif/upload-components-ci-action@v2
+        with:
+          namespace: "badgeteam"
+          components: "usb-input:."
+          api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}

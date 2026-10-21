@@ -1,0 +1,20 @@
+version: "0.1.0"
+description: "USB keyboards, mice and gamepads as input: runs the USB host and HID driver, tells devices apart and decodes their reports with hid-host"
+url: "https://github.com/badgeteam/esp32-component-usb-input"
+repository: "git://github.com/badgeteam/esp32-component-usb-input.git"
+issues: "https://github.com/badgeteam/esp32-component-usb-input/issues"
+license: "MIT"
+tags:
+  - usb
+  - hid
+  - gamepad
+  - keyboard
+  - mouse
+targets:
+  - esp32p4
+  - esp32s3
+  - esp32s2
+dependencies:
+  idf: ">=5.3"
+  espressif/usb_host_hid: "^1.2.1"
+  badgeteam/hid-host: "^0.4.0"
